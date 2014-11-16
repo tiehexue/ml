@@ -16,7 +16,7 @@ object Util {
 
   def toFile(x: Array[Array[Double]], fileName: String) = {
     val writer = new PrintWriter(new File(fileName))
-    x.map(i => writer.write(i.mkString + "/n"))
+    x.map(i => writer.write(i.mkString + "\n"))
     writer.close()
   }
 
