@@ -32,4 +32,11 @@ object WYMath {
     ys.map(sigmoid(_))
   }
 
+  def wbx(w: Array[Array[Double]], b: Array[Double], x: Array[Double]) = {
+    W.zipWithIndex.map{ case(w, i) =>
+      w.zipWithIndex.map { case (e, j) =>
+        e * x(j)
+      }.sum + b(i)
+    }.toArray
+  }
 }

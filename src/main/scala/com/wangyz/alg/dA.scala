@@ -14,21 +14,13 @@ case class dA(nx: Int, nhidden: Int, corruptLevel: Double) {
   val bVisible: Array[Double] = new Array[Double](nx)
 
   def getHidden(x: Array[Double]) = {
-    val tmpHidden = W.zipWithIndex.map{ case(w, i) =>
-      w.zipWithIndex.map {case (e, j) =>
-        e * x(j)
-      }.sum + b(i)
-    }.toArray   
+    val tmpHidden = wbx(W, b, x)   
 
     sigmoid(tmpHidden)
   }
 
   def reconstruct(y: Array[Double]) = {
-    val tmp = W.transpose.zipWithIndex.map{ case(w, i) =>
-      w.zipWithIndex.map {case (e, j) =>
-        e * y(j)
-      }.sum + bVisible(i)
-    }.toArray   
+    val tmp = wbx(W.transpose, bVisible, y)
 
     sigmoid(tmp)
   }

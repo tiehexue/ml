@@ -1,3 +1,6 @@
+
+
+
 package com.wangyz.alg
 
 import scala.math
@@ -14,11 +17,7 @@ case class LogisticRegression(nx: Int, ny: Int) {
 
   def trainOne(x: Array[Double], y: Array[Double]) = {
   
-    val tmpPy = W.zipWithIndex.map{ case(w, i) =>
-      w.zipWithIndex.map {case (e, j) =>
-        e * x(j)
-      }.sum + b(i)
-    }.toArray 
+    val tmpPy = wbx(W, b, x)
 
     val py = softmax(tmpPy)
     val dy = py.zipWithIndex.map{ case (e, i) => y(i) - e }
@@ -68,11 +67,7 @@ case class LogisticRegression(nx: Int, ny: Int) {
   }
 
   def predict(x: Array[Double]) = {
-    val tmpY = W.zipWithIndex.map{ case(w, i) =>
-      w.zipWithIndex.map { case (e, j) =>
-        e * x(j)
-      }.sum + b(i)
-    }.toArray
+    val tmpY = wbx(W, b, x)
 
     softmax(tmpY)
   }

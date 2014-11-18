@@ -11,7 +11,7 @@ object dATest {
 
   def testdA(learningRate: Double, epochs: Int, corruptLevel: Double) = {
     
-    val classifier = new dA(trainx.head.head.size, 50, corruptLevel)
+    val classifier = new dA(trainx.head.head.size, 500, corruptLevel)
     classifier.learningRate = learningRate
 
     (0 until epochs).foreach{ _ => 
