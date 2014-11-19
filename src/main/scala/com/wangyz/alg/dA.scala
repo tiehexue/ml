@@ -105,5 +105,6 @@ object dA {
     val reconstructedXs = testXs.map(t => da.reconstruct(da.getHidden(t)))
 
     println(array2D(reconstructedXs))
+    println(da.loss(xs))
   }
 }

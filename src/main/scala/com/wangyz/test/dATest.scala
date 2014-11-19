@@ -17,6 +17,7 @@ object dATest {
 
     (0 until epochs).foreach{ i => 
       time("Epoch " + i + "")(classifier.train(trainx(0)))
+      time("Epoch " + i + ", and the loss is: ", true)(classifier.loss(trainx(0)))
       classifier.learningRate = classifier.learningRate * 0.9
     }
     
