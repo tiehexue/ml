@@ -3,8 +3,14 @@ package com.wangyz.util
 import java.io.File
 import java.io.PrintWriter
 import scala.io.Source
+import scala.collection.mutable.WrappedArray
 
 object Util {
+
+  def get[T](index: Int, others: Seq[Any]) = {
+    val x = others(index).asInstanceOf[WrappedArray[T]]
+    x.head
+  }
 
   def array2D(x: Array[Array[Double]]) = {
     "[\n" + x.map("  " + array1D(_)).mkString("\n") + "\n]"

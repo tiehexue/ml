@@ -4,8 +4,9 @@ import scala.math
 
 import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
+import com.wangyz.util.TimerTrait
 
-case class dA(nx: Int, nhidden: Int, corruptLevel: Double) {
+case class dA(nx: Int, nhidden: Int, corruptLevel: Double) extends DeepLearningAlg {
 
   var learningRate: Double = 0.2
 
@@ -56,7 +57,7 @@ case class dA(nx: Int, nhidden: Int, corruptLevel: Double) {
     }   
   }
 
-  def train(xs: Array[Array[Double]]) = {
+  override def train(xs: Array[Array[Double]], others: Any*): Unit = {
     xs.map(trainOne(_))
   }
 
@@ -91,7 +92,7 @@ object dA {
       Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0)
     )
 
-    val da: dA = new dA(20, 5, 0.1)
+    val da: dA = new dA(20, 5, 0.1) with TimerTrait
 
     for(i <- 0 until epochs) {
       da.train(xs)

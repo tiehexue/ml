@@ -7,8 +7,9 @@ import scala.math
 
 import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
+import com.wangyz.util.TimerTrait
 
-case class LogisticRegression(nx: Int, ny: Int) {
+case class LogisticRegression(nx: Int, ny: Int) extends DeepLearningAlg {
 
   var learningRate: Double = 0.2
 
@@ -35,7 +36,8 @@ case class LogisticRegression(nx: Int, ny: Int) {
     py
   }
 
-  def train(xs: Array[Array[Double]], ys: Array[Array[Double]]) = {
+  override def train(xs: Array[Array[Double]], others: Any*) = {
+    val ys = get[Array[Array[Double]]](0, others)
     xs.zipWithIndex.map{ case(e, i) => 
       trainOne(e, ys(i))
     }
@@ -95,7 +97,7 @@ object LogisticRegression {
       Array(0, 1)
     )
 
-    val classifier = new LogisticRegression(xs.head.size, ys.head.size)
+    val classifier = new LogisticRegression(xs.head.size, ys.head.size) with TimerTrait
 
     val epochs: Int = 1000
     for(i <- 0 until epochs) {
