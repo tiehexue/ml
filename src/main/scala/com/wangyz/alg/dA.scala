@@ -6,6 +6,8 @@ import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 import com.wangyz.util.TimerTrait
 
+import AlgUtil._
+
 case class dA(nx: Int, nhidden: Int, corruptLevel: Double) extends DeepLearningAlg {
 
   var learningRate: Double = 0.2

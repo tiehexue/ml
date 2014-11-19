@@ -9,12 +9,9 @@ import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 import com.wangyz.util.TimerTrait
 
-case class LogisticRegression(nx: Int, ny: Int) extends DeepLearningAlg {
+import AlgUtil._
 
-  var learningRate: Double = 0.2
-
-  val W: Array[Array[Double]] = Array.ofDim[Double](ny, nx)
-  val b: Array[Double] = new Array[Double](ny)
+case class LogisticRegression(override val nx: Int, override val ny: Int) extends AbstractLearning(nx, ny) {
 
   def trainOne(x: Array[Double], y: Array[Double]) = {
   
@@ -23,16 +20,9 @@ case class LogisticRegression(nx: Int, ny: Int) extends DeepLearningAlg {
     val py = softmax(tmpPy)
     val dy = py.zipWithIndex.map{ case (e, i) => y(i) - e }
 
-    W.zipWithIndex.map{ case(w, i) =>
-      w.zipWithIndex.map { case (e, j) =>
-        W(i)(j) = e + learningRate * dy(i) * x(j) / nx
-      }
-    }
-
-    b.zipWithIndex.map{ case (e, i) =>
-      b(i) = e + learningRate * dy(i) / nx
-    }
-
+    updateW(this, dy, x)
+    updateb(this, dy)
+    
     py
   }
 
@@ -41,37 +31,6 @@ case class LogisticRegression(nx: Int, ny: Int) extends DeepLearningAlg {
     xs.zipWithIndex.map{ case(e, i) => 
       trainOne(e, ys(i))
     }
-  }
-
-  def loss(xs: Array[Array[Double]], ys: Array[Array[Double]]) = {
-
-    val pys = xs.map(x => predict(x))
-
-    val tmpLosses = pys.zipWithIndex.map { case (p, i) =>
-      p.zipWithIndex.map { case (e, j) =>
-        ys(i)(j) * math.log(e) + (1 - ys(i)(j)) * math.log(1 - e)
-      }.sum
-    }
-
-    - tmpLosses.sum / tmpLosses.size
-  }
-
-  def error(xs: Array[Array[Double]], ys: Array[Array[Double]]) = {
-
-    val pys = xs.map(x => predict(x))
-
-    val errors = pys.zipWithIndex.map { case (p, i) =>
-      val maxIndex = p.indexOf(p.max)
-      ys(i)(maxIndex) != 1
-    }.filter(_ == true)
-
-    errors.size.doubleValue / xs.size
-  }
-
-  def predict(x: Array[Double]) = {
-    val tmpY = wbx(W, b, x)
-
-    softmax(tmpY)
   }
 }
 
