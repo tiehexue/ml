@@ -3,8 +3,6 @@ package com.wangyz.alg
 import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 
-import AlgUtil._
-
 abstract class AbstractLearning(x: Int, y: Int) extends DeepLearningAlg {
 
   var learningRate = 0.2
@@ -39,8 +37,52 @@ abstract class AbstractLearning(x: Int, y: Int) extends DeepLearningAlg {
   }
 
   def predict(x: Array[Double]) = {
-    val tmpY = wbx(W, b, x)
+    val tmpY = wbx(x)
 
     softmax(tmpY)
+  }
+
+  def wbx(x: Array[Double]): Array[Double] = {
+    wbx(W, b, x)
+  }
+
+  def wbx(tW: Array[Array[Double]], tb: Array[Double], x: Array[Double]): Array[Double] = {
+    tW.zipWithIndex.map{ case(w, i) =>
+      w.zipWithIndex.map { case (e, j) =>
+        e * x(j)
+      }.sum + tb(i)
+    }.toArray
+  }
+
+  def updateW(dy: Any, x: Array[Double]): Unit = {
+    updateW(this, dy, x)
+  }
+
+  def updateW(cls: AbstractLearning, dy: Any, x: Array[Double]): Unit = {
+    val delta = dy match {
+      case d: Double => Array.fill[Double](cls.W.size)(d)
+      case ds: Array[Double] => ds
+    }
+
+    cls.W.zipWithIndex.map{ case(w, i) =>
+      w.zipWithIndex.map { case (e, j) =>
+        cls.W(i)(j) = e + learningRate * delta(i) * x(j) / nx
+      }
+    }
+  }
+
+  def updateb(dy: Any): Unit = {
+    updateb(this, dy)
+  }
+
+  def updateb(cls: AbstractLearning, dy: Any): Unit = {
+    val delta = dy match {
+      case d: Double => Array.fill[Double](cls.W.size)(d)
+      case ds: Array[Double] => ds
+    }
+
+    cls.b.zipWithIndex.map{ case (e, i) =>
+      cls.b(i) = e + learningRate * delta(i) / nx
+    }  
   }
 }

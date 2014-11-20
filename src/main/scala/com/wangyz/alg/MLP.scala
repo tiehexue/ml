@@ -3,8 +3,6 @@ package com.wangyz.alg
 import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 
-import AlgUtil._
-
 case class MLP(nin: Int, nHidden: Int, nout: Int) extends AbstractLearning(0, 0) {
 
   val hiddenLayer = HiddenLayer(nin, nHidden, tanh)

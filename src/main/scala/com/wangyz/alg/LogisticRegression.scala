@@ -1,6 +1,3 @@
-
-
-
 package com.wangyz.alg
 
 import scala.math
@@ -9,19 +6,17 @@ import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 import com.wangyz.util.TimerTrait
 
-import AlgUtil._
-
 case class LogisticRegression(override val nx: Int, override val ny: Int) extends AbstractLearning(nx, ny) {
 
   def trainOne(x: Array[Double], y: Array[Double]) = {
   
-    val tmpPy = wbx(W, b, x)
+    val tmpPy = wbx(x)
 
     val py = softmax(tmpPy)
     val dy = py.zipWithIndex.map{ case (e, i) => y(i) - e }
 
-    updateW(this, dy, x)
-    updateb(this, dy)
+    updateW(dy, x)
+    updateb(dy)
     
     py
   }

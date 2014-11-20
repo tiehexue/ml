@@ -6,18 +6,12 @@ import com.wangyz.util.Util._
 import com.wangyz.util.WYMath._
 import com.wangyz.util.TimerTrait
 
-import AlgUtil._
+case class dA(override val nx: Int, override val ny: Int, corruptLevel: Double) extends AbstractLearning(nx, nx) with DeepLearningAlg {
 
-case class dA(nx: Int, nhidden: Int, corruptLevel: Double) extends DeepLearningAlg {
-
-  var learningRate: Double = 0.2
-
-  val W: Array[Array[Double]] = Array.ofDim[Double](nhidden, nx)
-  val b: Array[Double] = new Array[Double](nhidden)
   val bVisible: Array[Double] = new Array[Double](nx)
 
   def getHidden(x: Array[Double]) = {
-    val tmpHidden = wbx(W, b, x)   
+    val tmpHidden = wbx(x)   
 
     sigmoid(tmpHidden)
   }
