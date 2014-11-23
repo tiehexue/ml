@@ -11,14 +11,13 @@ abstract class AbstractLearning(x: Int, y: Int) extends DeepLearningAlg {
   val W: Array[Array[Double]] = Array.ofDim[Double](ny, nx)
   val b: Array[Double] = new Array[Double](ny)
 
+  // Negative log-likehood loss
   def loss(xs: Array[Array[Double]], ys: Array[Array[Double]]) = {
 
     val pys = xs.map(x => predict(x))
 
     val tmpLosses = pys.zipWithIndex.map { case (p, i) =>
-      p.zipWithIndex.map { case (e, j) =>
-        ys(i)(j) * math.log(e) + (1 - ys(i)(j)) * math.log(1 - e)
-      }.sum
+      math.log(p(ys(i).indexOf(1)))
     }
 
     - tmpLosses.sum / tmpLosses.size

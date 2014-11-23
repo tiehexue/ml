@@ -7,8 +7,8 @@ object WYMath {
   val random = new Random(1234)
 
   def softmax(ys: Array[Double]) = {
-    val max = ys.max
-    val ys2 = ys.map(i => math.exp(i - max))
+    //val max = ys.max
+    val ys2 = ys.map(math.exp(_))
     val sum = ys2.sum
     ys2.map(_ / sum)
   }
